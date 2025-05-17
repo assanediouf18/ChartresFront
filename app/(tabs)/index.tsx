@@ -3,7 +3,6 @@ import QuestionCard from '@/components/QuestionCard';
 import colors from '@/constants/colors';
 import questions from '@/mocks/questions';
 import { Question } from '@/types';
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,13 +31,14 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <StatusBar style="dark" />
 
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
-      />
+      <View>
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+      </View>
 
       <FlatList
         data={filteredQuestions}
@@ -59,9 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    gap: 16
+    gap: 12,
   },
   listContent: {
     flex: 1,

@@ -1,0 +1,88 @@
+import { Question } from '@/types';
+
+const questions: Question[] = [
+    {
+        id: '1',
+        text: 'For how much money would you eat a whole raw tomato?',
+        type: 'slider',
+        minValue: 0,
+        maxValue: 1000,
+        unit: '$',
+        category: 'food',
+    },
+    {
+        id: '2',
+        text: 'How many hours would you go without your phone for $100?',
+        type: 'slider',
+        minValue: 0,
+        maxValue: 72,
+        unit: 'hours',
+        category: 'technology',
+    },
+    {
+        id: '3',
+        text: 'Would you rather have unlimited free coffee or unlimited free pizza?',
+        type: 'choice',
+        choices: ['Coffee', 'Pizza'],
+        category: 'food',
+    },
+    {
+        id: '4',
+        text: 'How much would someone need to pay you to run a marathon tomorrow?',
+        type: 'slider',
+        minValue: 0,
+        maxValue: 10000,
+        unit: '$',
+        category: 'sports',
+    },
+    {
+        id: '5',
+        text: 'Would you rather be able to fly or be invisible?',
+        type: 'choice',
+        choices: ['Fly', 'Be invisible'],
+        category: 'superpowers',
+    },
+    {
+        id: '6',
+        text: 'How many spiders would you let crawl on you for $1,000?',
+        type: 'slider',
+        minValue: 0,
+        maxValue: 100,
+        unit: 'spiders',
+        category: 'weird',
+    },
+    {
+        id: '7',
+        text: 'Would you rather have the ability to speak all languages or play all musical instruments?',
+        type: 'choice',
+        choices: ['Speak all languages', 'Play all instruments'],
+        category: 'skills',
+    },
+    {
+        id: '8',
+        text: 'How much would you pay for a pill that makes you never need sleep again?',
+        type: 'slider',
+        minValue: 0,
+        maxValue: 10000,
+        unit: '$',
+        category: 'health',
+    },
+    {
+        id: '9',
+        text: 'Would you rather have free flights for life or free meals at restaurants for life?',
+        type: 'choice',
+        choices: ['Free flights', 'Free meals'],
+        category: 'lifestyle',
+    },
+    {
+        id: '10',
+        text: 'How much would you need to be paid to give up social media for a year?',
+        type: 'slider',
+        minValue: 0,
+        maxValue: 100000,
+        unit: '$',
+        category: 'technology',
+    },
+];
+
+export default questions;

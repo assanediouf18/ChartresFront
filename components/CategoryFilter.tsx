@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 12,
         gap: 8,
+        height: 64,
     },
     categoryButton: {
         paddingHorizontal: 16,
@@ -74,6 +75,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.card,
         borderWidth: 1,
         borderColor: colors.border,
+        textAlign: "center",
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
     selectedCategory: {
         backgroundColor: colors.primary,

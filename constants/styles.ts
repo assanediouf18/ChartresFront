@@ -3,7 +3,10 @@ import colors from './colors';
 
 export const typography = {
     h1: {
-        size: 24,
+        size: 30,
+    },
+    big: {
+        size: 18,
     },
     base: {
         size: 16,
@@ -18,6 +21,7 @@ const defaultStyles = StyleSheet.create({
     h1: {
         fontSize: typography.h1.size,
         marginVertical: 8,
+        fontWeight: "bold",
     },
     btnOutlined: {
         backgroundColor: colors.card,

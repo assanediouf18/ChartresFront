@@ -13,7 +13,7 @@ export default function ModeScreen() {
 
     const handleModeSelection = (mode: Mode) => {
         setMode(mode);
-        router.navigate(mode == Mode.SOLO ? '/categories' : '/room');
+        router.navigate(mode == Mode.SOLO ? '/categories' : '/rooms');
     }
     
     return (

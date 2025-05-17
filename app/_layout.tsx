@@ -19,7 +19,7 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="categories" options={{ headerShown: false }} />
-        <Stack.Screen name="room" options={{ headerShown: false }} />
+        <Stack.Screen name="rooms" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="question/[id]"

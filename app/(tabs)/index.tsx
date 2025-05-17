@@ -59,8 +59,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    gap: 16
   },
   listContent: {
+    flex: 1,
     padding: 16,
   },
   emptyContainer: {

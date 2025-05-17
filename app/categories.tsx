@@ -1,7 +1,6 @@
 import colors from "@/constants/colors";
 import defaultStyles, { typography } from "@/constants/styles";
 import questions from "@/mocks/questions";
-import useGlobalStore, { Mode } from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
@@ -29,8 +28,7 @@ export default function CategoriesSelectionScreen() {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     
-    const mode = useGlobalStore(store => store.mode);
-    const nextPage = mode == Mode.SOLO ? "Start" : "Next";
+    const nextPage = "Start";
 
     const router = useRouter();
 
@@ -51,12 +49,10 @@ export default function CategoriesSelectionScreen() {
     }
 
     const goToNextPage = () => {
-        if(mode == Mode.SOLO) {
-            // get question
-            const questionId = 1;
-            // and switch page !
-            router.push(`/question/${questionId}`);
-        }
+        // get question
+        const questionId = 1;
+        // and switch page !
+        router.push(`/question/${questionId}`);
     }
 
     return (

@@ -1,6 +1,8 @@
 import colors from "@/constants/colors";
 import defaultStyles, { typography } from "@/constants/styles";
 import questions from "@/mocks/questions";
+import useGlobalStore, { Mode } from "@/store/useGlobalStore";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,9 +26,13 @@ function CategoryItem({ name, selected, onCategoryPress }: CategoryItemProps) {
 }
 
 export default function CategoriesSelectionScreen() {
-    // const [filteredQuestions, setFilteredQuestions] = useState<Question[]>(questions);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
+    
+    const mode = useGlobalStore(store => store.mode);
+    const nextPage = mode == Mode.SOLO ? "Start" : "Next";
+
+    const router = useRouter();
 
     useEffect(() => {
         // Extract unique categories
@@ -42,6 +48,15 @@ export default function CategoriesSelectionScreen() {
             selectedCategories.filter(selected => selected !== categoryName) : 
             [...selectedCategories, categoryName]
         );
+    }
+
+    const goToNextPage = () => {
+        if(mode == Mode.SOLO) {
+            // get question
+            const questionId = 1;
+            // and switch page !
+            router.push(`/question/${questionId}`);
+        }
     }
 
     return (
@@ -64,12 +79,20 @@ export default function CategoriesSelectionScreen() {
                 numColumns={2}
                 columnWrapperStyle={styles.columnWrapper}
             />
-            <Pressable 
-                style={[defaultStyles.btnOutlined, { backgroundColor: colors.primary, marginBottom: 12 }]}
-                onPress={() => console.log("Ready to go to next page !")}
-            >
-                <Text style={{color: "white"}}>Next</Text>
-            </Pressable>
+            <View style={styles.actions}>
+                <Pressable
+                    style={[defaultStyles.btnOutlined, { backgroundColor: colors.primary }]}
+                    onPress={goToNextPage}
+                >
+                    <Text style={{ color: "white" }}>{nextPage}</Text>
+                </Pressable>
+                <Pressable
+                    style={[defaultStyles.btnOutlined, { borderColor: colors.primary, margin: 0 }]}
+                    onPress={() => router.back()}
+                >
+                    <Text style={{ color: colors.primary }}>Back</Text>
+                </Pressable>
+            </View>
         </SafeAreaView>
     )
 }
@@ -112,5 +135,8 @@ const styles = StyleSheet.create({
         minHeight: 92,
         justifyContent: "space-between",
         gap: 12,
+    },
+    actions: {
+        gap: 8
     }
 });

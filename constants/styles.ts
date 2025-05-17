@@ -1,10 +1,13 @@
 import { StyleSheet } from 'react-native';
 import colors from './colors';
 
-export const TYPOGRAPHY = {
+export const typography = {
     h1: {
-        size: 24
-    }
+        size: 24,
+    },
+    base: {
+        size: 16,
+    },
 }
 
 const defaultStyles = StyleSheet.create({
@@ -13,7 +16,8 @@ const defaultStyles = StyleSheet.create({
         backgroundColor: colors.background,
     },
     h1: {
-        fontSize: TYPOGRAPHY.h1.size,
+        fontSize: typography.h1.size,
+        marginVertical: 8,
     },
     btnOutlined: {
         backgroundColor: colors.card,

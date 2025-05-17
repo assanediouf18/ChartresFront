@@ -1,79 +1,80 @@
-import CategoryFilter from '@/components/CategoryFilter';
-import QuestionCard from '@/components/QuestionCard';
 import colors from '@/constants/colors';
-import questions from '@/mocks/questions';
-import { Question } from '@/types';
-import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-  const [filteredQuestions, setFilteredQuestions] = useState<Question[]>(questions);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [categories, setCategories] = useState<string[]>([]);
-
-  useEffect(() => {
-    // Extract unique categories
-    const uniqueCategories = Array.from(
-      new Set(questions.map((q) => q.category))
-    );
-    setCategories(uniqueCategories);
-
-    // Apply filter
-    if (selectedCategory) {
-      setFilteredQuestions(
-        questions.filter((q) => q.category === selectedCategory)
-      );
-    } else {
-      setFilteredQuestions(questions);
-    }
-  }, [selectedCategory]);
-
+  const selectedChoice = false;
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
-
-      <View>
-        <CategoryFilter
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
-      </View>
-
-      <FlatList
-        data={filteredQuestions}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <QuestionCard question={item} />}
-        contentContainerStyle={styles.listContent}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No questions found</Text>
-          </View>
-        }
-      />
-    </SafeAreaView>
-  );
+      <SafeAreaView style={styles.container}>
+        <View style={styles.buttonHolder}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.choiceButton,
+              selectedChoice && styles.selectedChoice,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text
+              style={[styles.choiceText]}
+            >
+              Solo
+            </Text>
+          </Pressable>
+          <Pressable
+            style={({ pressed }) => [
+              styles.choiceButton,
+              selectedChoice && styles.selectedChoice,
+              pressed && styles.pressed,
+            ]}
+          >
+            <Text
+              style={[styles.choiceText]}
+            >
+              Multiplayer
+            </Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
+    justifyContent: "center",
+  },
+  buttonHolder: {
+    flex: 1,
+    padding: 32,
     gap: 12,
+    justifyContent: "center",
   },
-  listContent: {
-    flex: 1,
-    padding: 16,
-  },
-  emptyContainer: {
-    flex: 1,
+
+  choiceButton: {
+    backgroundColor: colors.card,
+    borderRadius: 12,
+    padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 24,
+    borderWidth: 2,
+    borderColor: colors.border,
   },
-  emptyText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    textAlign: 'center',
+  selectedChoice: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  pressed: {
+    opacity: 0.9,
+    transform: [{ scale: 0.98 }],
+  },
+  choiceText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  selectedChoiceText: {
+    color: colors.background,
   },
 });

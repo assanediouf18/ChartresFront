@@ -1,6 +1,6 @@
 import colors from "@/constants/colors";
 import defaultStyles, { typography } from "@/constants/styles";
-import useGlobalStore, { Mode } from "@/store/useGlobalStore";
+import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
@@ -9,18 +9,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function RoomScreen() {
     const router = useRouter();
 
-    const mode = useGlobalStore(state => state.mode);
-    const setNumberOfPlayersInState = useGlobalStore(state => state.setNumberOfPlayers);
-
-    if(mode !== Mode.MULTIPLAYER) {
-        router.replace('/');
-    }
-
     const [numberOfPlayers, setNumberOfPlayers] = useState<number>(0);
 
+    const setNumberOfPlayersInState = useGlobalStore(state => state.setNumberOfPlayers);
     const handleNavigation = () => {
         if(setNumberOfPlayersInState(numberOfPlayers)) {
-            console.log("Go to next page")
+            router.navigate('/rooms/names');
         }
     }
 

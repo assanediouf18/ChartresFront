@@ -1,6 +1,7 @@
 import colors from "@/constants/colors";
 import defaultStyles, { typography } from "@/constants/styles";
-import { useGetCategories } from "@/hooks/queries";
+import { useGetCategories, useGetNextQuestion } from "@/hooks/queries";
+import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
@@ -27,6 +28,8 @@ function CategoryItem({ name, selected, onCategoryPress }: CategoryItemProps) {
 export default function CategoriesSelectionScreen() {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const { categories } = useGetCategories();
+    const {question: nextQuestion} = useGetNextQuestion();
+    const setQuestion = useGlobalStore(state => state.setNextQuestion);
     
     const nextPage = "Start";
 
@@ -34,7 +37,11 @@ export default function CategoriesSelectionScreen() {
 
     useEffect(() => {
         setSelectedCategories(categories);
-    }, []);
+    }, [categories]);
+
+    useEffect(() => {
+        setQuestion(nextQuestion);
+    }, [nextQuestion])
 
     const handleCategoryPressed = (categoryName: string) => {
         setSelectedCategories(selectedCategories.includes(categoryName) ? 
@@ -44,10 +51,8 @@ export default function CategoriesSelectionScreen() {
     }
 
     const goToNextPage = () => {
-        // get question
-        const questionId = 1;
-        // and switch page !
-        router.push(`/question/${questionId}`);
+        if(!nextQuestion) return;
+        router.push(`/question/${nextQuestion.id}`);
     }
 
     return (

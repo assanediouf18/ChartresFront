@@ -2,10 +2,9 @@ import ChoiceQuestion from '@/components/ChoiceQuestion';
 import ResultsView from '@/components/ResultsView';
 import SliderQuestion from '@/components/SliderQuestion';
 import colors from '@/constants/colors';
-import { useGetQuestions } from '@/hooks/queries';
+import { useGetNextQuestion } from '@/hooks/queries';
 import useAnswerStore from '@/store/useAnswerStore';
 import useGlobalStore, { Mode } from '@/store/useGlobalStore';
-import { Question } from '@/types';
 import * as Haptics from 'expo-haptics';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft, Share2 } from 'lucide-react-native';
@@ -16,8 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function QuestionScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
-    const { questions } = useGetQuestions();
-    const [question, setQuestion] = useState<Question | null>(null);
+    const question = useGlobalStore(state => state.question);
     const [showResults, setShowResults] = useState(false);
     const [sliderValue, setSliderValue] = useState<number | null>(null);
     const [choiceValue, setChoiceValue] = useState<string | null>(null);
@@ -35,28 +33,29 @@ export default function QuestionScreen() {
     const isSoloMode = mode === Mode.SOLO;
     const currentPlayer = isSoloMode ? 'You' : players[currentPlayerIndex];
 
+    const setQuestion = useGlobalStore(state => state.setNextQuestion);
+    const { question: nextQuestion } = useGetNextQuestion();
     useEffect(() => {
-        if (id) {
-            const foundQuestion = questions.find((q) => q.id === id);
-            if (foundQuestion) {
-                setQuestion(foundQuestion);
+        setQuestion(nextQuestion);
+    }, [nextQuestion])
 
-                // Check if current player has already answered
-                if (hasAnswered(id, currentPlayer)) {
-                    setShowResults(true);
+    useEffect(() => {
+        // setQuestion(nextQuestion);
+        // Check if current player has already answered
+        console.log(question);
+        if (hasAnswered(id, currentPlayer)) {
+            setShowResults(true);
 
-                    const savedAnswer = getAnswer(id, currentPlayer);
-                    if (savedAnswer) {
-                        if (foundQuestion.type === 'slider') {
-                            setSliderValue(savedAnswer.value as number);
-                        } else {
-                            setChoiceValue(savedAnswer.value as string);
-                        }
-                    }
+            const savedAnswer = getAnswer(id, currentPlayer);
+            if (savedAnswer) {
+                if (question.type === 'slider') {
+                    setSliderValue(savedAnswer.value as number);
+                } else {
+                    setChoiceValue(savedAnswer.value as string);
                 }
             }
         }
-    }, [id, currentPlayer, questions]);
+    }, [])
 
     const handleSliderAnswer = (value: number) => {
         setSliderValue(value);
@@ -93,6 +92,7 @@ export default function QuestionScreen() {
             setShowResults(false);
             setSliderValue(null);
             setChoiceValue(null);
+            router.push(`/question/${nextQuestion.id}`);
         } else if (currentPlayerIndex < players.length - 1) {
             // Move to next player
             setCurrentPlayerIndex(prev => prev + 1);
@@ -101,7 +101,7 @@ export default function QuestionScreen() {
             setChoiceValue(null);
         } else {
             // All players have answered, navigate to results page
-            router.push(`/results?id=${id}`);
+            router.push(`/results?id=${nextQuestion.id}`);
         }
     };
 
@@ -200,7 +200,7 @@ export default function QuestionScreen() {
                                 onPress={handleNextPlayer}
                             >
                                 <Text style={styles.submitButtonText}>
-                                    {isSoloMode ? 'Try Again' : 
+                                    {isSoloMode ? 'Next' : 
                                      currentPlayerIndex < players.length - 1 ? 'Next Player' : 'Finish'}
                                 </Text>
                             </Pressable>

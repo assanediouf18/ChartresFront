@@ -18,14 +18,14 @@ export default function ResultsView({ question, userAnswer, stats }: ResultsView
                 <View style={styles.resultCard}>
                     <Text style={styles.labelText}>Your answer</Text>
                     <Text style={styles.valueText}>
-                        {userAnswer.value} {question.unit}
+                        {userAnswer.value} {question.price_unit}
                     </Text>
                 </View>
 
                 <View style={styles.resultCard}>
                     <Text style={styles.labelText}>Community average</Text>
                     <Text style={styles.valueText}>
-                        {stats.averageValue?.toFixed(1)} {question.unit}
+                        {stats.averageValue?.toFixed(1)} {question.price_unit}
                     </Text>
                 </View>
 

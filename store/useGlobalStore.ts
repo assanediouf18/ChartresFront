@@ -1,3 +1,4 @@
+import { Question } from "@/types";
 import { create } from "zustand";
 
 export enum Mode {
@@ -9,10 +10,12 @@ export interface GlobalAppData {
     mode?: Mode,
     numberOfPlayers: number,
     players: string[],
+    question?: Question,
     setMode: (newMode: Mode) => void
     resetMode: () => void
     addPlayer: (player: string, index: number) => void
     setNumberOfPlayers: (nbOfPlayers: number) => boolean
+    setNextQuestion: (question: Question) => void
 }
 
 const useGlobalStore = create<GlobalAppData>((set) => ({
@@ -34,7 +37,8 @@ const useGlobalStore = create<GlobalAppData>((set) => ({
             return true;
         }
         return false;
-    }
+    },
+    setNextQuestion: (newQuestion) => set((state) => ({ question: newQuestion }))
 }));
 
 export default useGlobalStore;

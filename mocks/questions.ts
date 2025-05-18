@@ -7,7 +7,7 @@ const mockQuestions: Question[] = [
         type: 'slider',
         minValue: 0,
         maxValue: 1000,
-        unit: '$',
+        price_unit: '$',
         category: 'food',
     },
     {
@@ -16,7 +16,7 @@ const mockQuestions: Question[] = [
         type: 'slider',
         minValue: 0,
         maxValue: 72,
-        unit: 'hours',
+        price_unit: 'hours',
         category: 'technology',
     },
     {
@@ -32,7 +32,7 @@ const mockQuestions: Question[] = [
         type: 'slider',
         minValue: 0,
         maxValue: 10000,
-        unit: '$',
+        price_unit: '$',
         category: 'sports',
     },
     {
@@ -48,7 +48,7 @@ const mockQuestions: Question[] = [
         type: 'slider',
         minValue: 0,
         maxValue: 100,
-        unit: 'spiders',
+        price_unit: 'spiders',
         category: 'weird',
     },
     {
@@ -64,7 +64,7 @@ const mockQuestions: Question[] = [
         type: 'slider',
         minValue: 0,
         maxValue: 10000,
-        unit: '$',
+        price_unit: '$',
         category: 'health',
     },
     {
@@ -80,7 +80,7 @@ const mockQuestions: Question[] = [
         type: 'slider',
         minValue: 0,
         maxValue: 100000,
-        unit: '$',
+        price_unit: '$',
         category: 'technology',
     },
 ];

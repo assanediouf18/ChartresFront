@@ -1,8 +1,6 @@
 import colors from '@/constants/colors';
-import questions from '@/mocks/questions';
 import useAnswerStore from '@/store/useAnswerStore';
 import useGlobalStore from '@/store/useGlobalStore';
-import { Question } from '@/types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -11,20 +9,20 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function ResultsScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
-    const [question, setQuestion] = useState<Question | null>(null);
+    const question = useGlobalStore(state => state.question);
     const [randomizedAnswers, setRandomizedAnswers] = useState<Array<{ value: number | string, isOutlier: boolean }>>([]);
 
     const players = useGlobalStore(state => state.players);
     const { getAnswer } = useAnswerStore();
 
-    useEffect(() => {
-        if (id) {
-            const foundQuestion = questions.find((q) => q.id === id);
-            if (foundQuestion) {
-                setQuestion(foundQuestion);
-            }
-        }
-    }, [id]);
+    // const setQuestion = useGlobalStore(state => state.setNextQuestion);
+    // const { question: nextQuestion } = useGetNextQuestion();
+    // useEffect(() => {
+    //     if(nextQuestion) {
+    //         console.log(nextQuestion);
+    //         setQuestion(nextQuestion);
+    //     }
+    // }, [nextQuestion])
 
     useEffect(() => {
         if (question) {
@@ -56,6 +54,7 @@ export default function ResultsScreen() {
 
     const handleNewQuestion = () => {
         // TODO: Implement navigation to next question
+        // router.push(`/question/${nextQuestion.id}`);
         router.back();
     };
 
@@ -89,7 +88,7 @@ export default function ResultsScreen() {
                             ]}
                         >
                             <Text style={styles.answerValue}>
-                                {answer.value} {question.unit}
+                                {answer.value} {question.price_unit}
                             </Text>
                         </View>
                     ))}

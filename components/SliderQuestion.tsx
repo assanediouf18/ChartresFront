@@ -2,7 +2,7 @@ import colors from '@/constants/colors';
 import useAnswerStore from '@/store/useAnswerStore';
 import { Question } from '@/types';
 import Slider from '@react-native-community/slider';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface SliderQuestionProps {

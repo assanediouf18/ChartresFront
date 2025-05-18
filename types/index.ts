@@ -14,6 +14,7 @@ export interface Answer {
     questionId: string;
     value: number | string;
     timestamp: number;
+    player: string;
 }
 
 export interface CommunityStats {

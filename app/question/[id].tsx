@@ -35,7 +35,7 @@ export default function QuestionScreen() {
 
                 // Check if user has already answered
                 if (hasAnswered(id)) {
-                    setShowResults(true);
+                    // setShowResults(true);
 
                     const savedAnswer = getAnswer(id);
                     if (savedAnswer) {

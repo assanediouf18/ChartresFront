@@ -11,7 +11,7 @@ export interface GlobalAppData {
     players: string[],
     setMode: (newMode: Mode) => void
     resetMode: () => void
-    addPlayer: (player: string) => void
+    addPlayer: (player: string, index: number) => void
     setNumberOfPlayers: (nbOfPlayers: number) => boolean
 }
 
@@ -19,11 +19,17 @@ const useGlobalStore = create<GlobalAppData>((set) => ({
     mode: undefined,
     players: [],
     numberOfPlayers: 1,
-    setMode: (newMode: Mode) => set(_state => ({ mode: newMode})),
-    resetMode: () => set(_state => ({ mode: undefined})),
-    addPlayer: (player: string) => set(state => ({players: [...state.players, player]})),
+    setMode: (newMode: Mode) => set(_state => ({ mode: newMode })),
+    resetMode: () => set(_state => ({ mode: undefined })),
+    addPlayer: (player: string, index: number) => {
+        set(state => ({
+            players: index < state.players.length
+                ? state.players.map((p, i) => i === index ? player : p)
+                : [...state.players, player]
+        }))
+    },
     setNumberOfPlayers: (nbOfPlayers) => {
-        if(nbOfPlayers > 0) {
+        if (nbOfPlayers > 0) {
             set(_state => ({ numberOfPlayers: nbOfPlayers }));
             return true;
         }

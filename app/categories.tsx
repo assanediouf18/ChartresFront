@@ -1,6 +1,6 @@
 import colors from "@/constants/colors";
 import defaultStyles, { typography } from "@/constants/styles";
-import questions from "@/mocks/questions";
+import { useGetCategories } from "@/hooks/queries";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
@@ -26,19 +26,14 @@ function CategoryItem({ name, selected, onCategoryPress }: CategoryItemProps) {
 
 export default function CategoriesSelectionScreen() {
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-    const [categories, setCategories] = useState<string[]>([]);
+    const { categories } = useGetCategories();
     
     const nextPage = "Start";
 
     const router = useRouter();
 
     useEffect(() => {
-        // Extract unique categories
-        const uniqueCategories = Array.from(
-            new Set(questions.map((q) => q.category))
-        );
-        setCategories(uniqueCategories);
-        setSelectedCategories(uniqueCategories);
+        setSelectedCategories(categories);
     }, []);
 
     const handleCategoryPressed = (categoryName: string) => {

@@ -1,6 +1,6 @@
 import { Question } from '@/types';
 
-const questions: Question[] = [
+const mockQuestions: Question[] = [
     {
         id: '1',
         text: 'For how much money would you eat a whole raw tomato?',
@@ -85,4 +85,4 @@ const questions: Question[] = [
     },
 ];
 
-export default questions;
+export default mockQuestions;

@@ -2,7 +2,7 @@ import ChoiceQuestion from '@/components/ChoiceQuestion';
 import ResultsView from '@/components/ResultsView';
 import SliderQuestion from '@/components/SliderQuestion';
 import colors from '@/constants/colors';
-import questions from '@/mocks/questions';
+import { useGetQuestions } from '@/hooks/queries';
 import useAnswerStore from '@/store/useAnswerStore';
 import useGlobalStore, { Mode } from '@/store/useGlobalStore';
 import { Question } from '@/types';
@@ -16,6 +16,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function QuestionScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
+    const { questions } = useGetQuestions();
     const [question, setQuestion] = useState<Question | null>(null);
     const [showResults, setShowResults] = useState(false);
     const [sliderValue, setSliderValue] = useState<number | null>(null);
@@ -55,7 +56,7 @@ export default function QuestionScreen() {
                 }
             }
         }
-    }, [id, currentPlayer]);
+    }, [id, currentPlayer, questions]);
 
     const handleSliderAnswer = (value: number) => {
         setSliderValue(value);

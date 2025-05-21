@@ -5,15 +5,17 @@ export interface Question {
     type: 'slider' | 'choice';
     minValue?: number;
     maxValue?: number;
-    unit?: string;
+    price_unit?: string;
     choices?: string[];
     category: string;
+    average_answer: number;
 }
 
 export interface Answer {
     questionId: string;
     value: number | string;
     timestamp: number;
+    player: string;
 }
 
 export interface CommunityStats {

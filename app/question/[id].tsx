@@ -2,23 +2,24 @@ import ChoiceQuestion from '@/components/ChoiceQuestion';
 import ResultsView from '@/components/ResultsView';
 import SliderQuestion from '@/components/SliderQuestion';
 import colors from '@/constants/Colors';
-import questions from '@/mocks/questions';
+import { useGetNextQuestion } from '@/hooks/queries';
 import useAnswerStore from '@/store/useAnswerStore';
-import { Question } from '@/types';
+import useGlobalStore, { Mode } from '@/store/useGlobalStore';
 import * as Haptics from 'expo-haptics';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { ArrowLeft, Share2 } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function QuestionScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
-    const [question, setQuestion] = useState<Question | null>(null);
+    const question = useGlobalStore(state => state.question);
     const [showResults, setShowResults] = useState(false);
     const [sliderValue, setSliderValue] = useState<number | null>(null);
     const [choiceValue, setChoiceValue] = useState<string | null>(null);
+    const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 
     const {
         addAnswer,
@@ -27,28 +28,34 @@ export default function QuestionScreen() {
         hasAnswered
     } = useAnswerStore();
 
+    const players = useGlobalStore(state => state.players);
+    const mode = useGlobalStore(state => state.mode);
+    const isSoloMode = mode === Mode.SOLO;
+    const currentPlayer = isSoloMode ? 'You' : players[currentPlayerIndex];
+
+    const setQuestion = useGlobalStore(state => state.setNextQuestion);
+    const { question: nextQuestion } = useGetNextQuestion();
     useEffect(() => {
-        if (id) {
-            const foundQuestion = questions.find((q) => q.id === id);
-            if (foundQuestion) {
-                setQuestion(foundQuestion);
+        setQuestion(nextQuestion);
+    }, [nextQuestion])
 
-                // Check if user has already answered
-                if (hasAnswered(id)) {
-                    setShowResults(true);
+    useEffect(() => {
+        // setQuestion(nextQuestion);
+        // Check if current player has already answered
+        console.log(question);
+        if (hasAnswered(id, currentPlayer)) {
+            setShowResults(true);
 
-                    const savedAnswer = getAnswer(id);
-                    if (savedAnswer) {
-                        if (foundQuestion.type === 'slider') {
-                            setSliderValue(savedAnswer.value as number);
-                        } else {
-                            setChoiceValue(savedAnswer.value as string);
-                        }
-                    }
+            const savedAnswer = getAnswer(id, currentPlayer);
+            if (savedAnswer) {
+                if (question.type === 'slider') {
+                    setSliderValue(savedAnswer.value as number);
+                } else {
+                    setChoiceValue(savedAnswer.value as string);
                 }
             }
         }
-    }, [id]);
+    }, [])
 
     const handleSliderAnswer = (value: number) => {
         setSliderValue(value);
@@ -72,9 +79,29 @@ export default function QuestionScreen() {
                 questionId: question.id,
                 value,
                 timestamp: Date.now(),
+                player: currentPlayer
             });
 
             setShowResults(true);
+        }
+    };
+
+    const handleNextPlayer = () => {
+        if (isSoloMode) {
+            // In solo mode, just reset the question state
+            setShowResults(false);
+            setSliderValue(null);
+            setChoiceValue(null);
+            router.push(`/question/${nextQuestion.id}`);
+        } else if (currentPlayerIndex < players.length - 1) {
+            // Move to next player
+            setCurrentPlayerIndex(prev => prev + 1);
+            setShowResults(false);
+            setSliderValue(null);
+            setChoiceValue(null);
+        } else {
+            // All players have answered, navigate to results page
+            router.push(`/results?id=${nextQuestion.id}`);
         }
     };
 
@@ -93,32 +120,25 @@ export default function QuestionScreen() {
         );
     }
 
-    const userAnswer = getAnswer(question.id);
+    const userAnswer = getAnswer(question.id, currentPlayer);
     const stats = getCommunityStats(question.id);
 
     return (
         <>
             <Stack.Screen
                 options={{
-                    headerTitle: "",
                     headerLeft: () => (
                         <Pressable
+                            style={styles.headerButton}
                             onPress={() => router.back()}
-                            style={({ pressed }) => [
-                                styles.headerButton,
-                                pressed && styles.pressed
-                            ]}
                         >
                             <ArrowLeft size={24} color={colors.text} />
                         </Pressable>
                     ),
                     headerRight: () => (
                         <Pressable
+                            style={styles.headerButton}
                             onPress={handleShare}
-                            style={({ pressed }) => [
-                                styles.headerButton,
-                                pressed && styles.pressed
-                            ]}
                         >
                             <Share2 size={24} color={colors.text} />
                         </Pressable>
@@ -132,6 +152,7 @@ export default function QuestionScreen() {
                     showsVerticalScrollIndicator={false}
                 >
                     <View style={styles.questionContainer}>
+                        {!isSoloMode && <Text style={styles.playerText}>{currentPlayer}'s turn</Text>}
                         <Text style={styles.questionText}>{question.text}</Text>
                         <Text style={styles.categoryText}>{question.category}</Text>
                     </View>
@@ -163,13 +184,27 @@ export default function QuestionScreen() {
                             </Pressable>
                         </>
                     ) : (
-                        userAnswer && stats && (
-                            <ResultsView
-                                question={question}
-                                userAnswer={userAnswer}
-                                stats={stats}
-                            />
-                        )
+                        <>
+                            {userAnswer && stats && (
+                                <ResultsView
+                                    question={question}
+                                    userAnswer={userAnswer}
+                                    stats={stats}
+                                />
+                            )}
+                            <Pressable
+                                style={({ pressed }) => [
+                                    styles.submitButton,
+                                    pressed && styles.pressed,
+                                ]}
+                                onPress={handleNextPlayer}
+                            >
+                                <Text style={styles.submitButtonText}>
+                                    {isSoloMode ? 'Next' : 
+                                     currentPlayerIndex < players.length - 1 ? 'Next Player' : 'Finish'}
+                                </Text>
+                            </Pressable>
+                        </>
                     )}
                 </ScrollView>
             </SafeAreaView>
@@ -187,6 +222,12 @@ const styles = StyleSheet.create({
     },
     questionContainer: {
         marginBottom: 24,
+    },
+    playerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: colors.primary,
+        marginBottom: 12,
     },
     questionText: {
         fontSize: 24,

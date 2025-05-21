@@ -2,7 +2,7 @@ import colors from '@/constants/Colors';
 import useAnswerStore from '@/store/useAnswerStore';
 import { Question } from '@/types';
 import Slider from '@react-native-community/slider';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface SliderQuestionProps {
@@ -30,7 +30,7 @@ export default function SliderQuestion({ question, onAnswer }: SliderQuestionPro
     return (
         <View style={styles.container}>
             <Text style={styles.valueText}>
-                {value.toFixed(0)} {question.unit}
+                {value.toFixed(0)} {question.price_unit}
             </Text>
 
             <Slider
@@ -47,10 +47,10 @@ export default function SliderQuestion({ question, onAnswer }: SliderQuestionPro
 
             <View style={styles.rangeLabels}>
                 <Text style={styles.rangeText}>
-                    {question.minValue} {question.unit}
+                    {question.minValue} {question.price_unit}
                 </Text>
                 <Text style={styles.rangeText}>
-                    {question.maxValue} {question.unit}
+                    {question.maxValue} {question.price_unit}
                 </Text>
             </View>
         </View>

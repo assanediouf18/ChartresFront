@@ -1,7 +1,7 @@
 import ChoiceQuestion from '@/components/ChoiceQuestion';
 import ResultsView from '@/components/ResultsView';
 import SliderQuestion from '@/components/SliderQuestion';
-import colors from '@/constants/colors';
+import colors from '@/constants/Colors';
 import questions from '@/mocks/questions';
 import useAnswerStore from '@/store/useAnswerStore';
 import { Question } from '@/types';

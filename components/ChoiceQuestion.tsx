@@ -1,4 +1,4 @@
-import colors from '@/constants/colors';
+import colors from '@/constants/Colors';
 import useAnswerStore from '@/store/useAnswerStore';
 import { Question } from '@/types';
 import React, { useEffect, useState } from 'react';

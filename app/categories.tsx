@@ -1,4 +1,4 @@
-import colors from "@/constants/colors";
+import colors from "@/constants/Colors";
 import defaultStyles, { typography } from "@/constants/styles";
 import questions from "@/mocks/questions";
 import { useRouter } from "expo-router";

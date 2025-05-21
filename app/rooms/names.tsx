@@ -1,4 +1,4 @@
-import colors from "@/constants/colors";
+import colors from "@/constants/Colors";
 import defaultStyles from "@/constants/styles";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";

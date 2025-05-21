@@ -1,4 +1,4 @@
-import colors from '@/constants/colors';
+import colors from '@/constants/Colors';
 import useAnswerStore from '@/store/useAnswerStore';
 import useGlobalStore from '@/store/useGlobalStore';
 import { useLocalSearchParams, useRouter } from 'expo-router';

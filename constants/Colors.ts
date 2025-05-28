@@ -1,9 +1,9 @@
 const colors = {
   primary: "#6366f1", // Indigo
   secondary: "#f97316", // Orange
-  background: "#ffffff",
+  background: "#114b5f",
   card: "#f9fafb",
-  text: "#1f2937",
+  text: "#ffffff",
   textSecondary: "#6b7280",
   border: "#e5e7eb",
   success: "#10b981",

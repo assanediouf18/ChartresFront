@@ -4,6 +4,7 @@ import colors from './Colors';
 export const typography = {
     h1: {
         size: 30,
+        color: "#ffffff",
     },
     big: {
         size: 18,

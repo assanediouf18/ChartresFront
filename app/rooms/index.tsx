@@ -3,10 +3,19 @@ import defaultStyles, { typography } from "@/constants/styles";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    Image,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    useWindowDimensions
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function RoomScreen() {
+    const { width } = useWindowDimensions();
     const router = useRouter();
 
     const [numberOfPlayers, setNumberOfPlayers] = useState<number>(0);
@@ -19,75 +28,103 @@ export default function RoomScreen() {
     }
 
     return (
-        <SafeAreaView style={[defaultStyles.container]}>
-            <View style={styles.header}>
-                <Text 
-                  style={[defaultStyles.h1, { paddingHorizontal: 12, textAlign: "center" }]}
-                >
-                    How Many People Will Play ?
-                </Text>
-            </View>
-            <View style={styles.main}>
-                <TextInput
-                    placeholder="2"
-                    style={styles.input}
-                    maxLength={12}
-                    inputMode="decimal"
-                    onChangeText={value => setNumberOfPlayers(parseInt(value))}
-                 />
-            </View>
-            <View style={styles.actions}>
-                <Pressable style={[defaultStyles.btnOutlined, numberOfPlayers <= 0 ? { backgroundColor: "gray" } : styles.joinBtn]} onPress={handleNavigation}>
-                    <Text style={{ color: "white" }}>Continue</Text>
-                </Pressable>
-                <Pressable style={[defaultStyles.btnOutlined, { borderColor: "transparent" }]} onPress={router.back}>
-                    <Text style={{ color: colors.secondary }}>Cancel</Text>
-                </Pressable>
-            </View>
-        </SafeAreaView>
+            <SafeAreaView style={[defaultStyles.container]}>
+                <ScrollView contentContainerStyle={styles.content}>
+                    <Text style={styles.title}>NUMBER OF PLAYERS</Text>
+
+                    <Image
+                        source={require('../../assets/images/players_page.png')}
+                        style={styles.image}
+                        resizeMode="contain"
+                    />
+
+                    <TextInput
+                        placeholder="2"
+                        style={styles.input}
+                        maxLength={2}
+                        inputMode="decimal"
+                        keyboardType="numeric"
+                        onChangeText={value => setNumberOfPlayers(parseInt(value))}
+                        placeholderTextColor="#aaa"
+                    />
+
+                    <Pressable
+                        style={[
+                            defaultStyles.btnOutlined,
+                            styles.btn,
+                            numberOfPlayers <= 0 && styles.btnDisabled,
+                        ]}
+                        onPress={handleNavigation}
+                        disabled={numberOfPlayers <= 0}
+                    >
+                        <Text style={styles.btnText}>Next</Text>
+                    </Pressable>
+
+                    <Pressable
+                        style={[defaultStyles.btnOutlined, styles.cancelBtn]}
+                        onPress={router.back}
+                    >
+                        <Text style={styles.cancelText}>Cancel</Text>
+                    </Pressable>
+                </ScrollView>
+            </SafeAreaView>
+
+
     )
 }
 
 const styles = StyleSheet.create({
-    main: {
+    content: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 24,
+        gap: 24,
     },
-    roomForm: {
-        gap: 12,
-    },
-    formRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 12,
-    },
-    inputLabel: {
+    title: {
+        fontSize: typography.h1.size,
         fontWeight: 'bold',
-        fontSize: typography.big.size,
+        color: colors.text,
+        textAlign: 'center',
+    },
+    image: {
+        width: '60%',
+        maxWidth: 300,
+        height: undefined,
+        aspectRatio: 1,
+        marginVertical: 16,
     },
     input: {
-        borderRadius: 12,
-        paddingHorizontal: 12,
-        borderWidth: 1,
-        fontSize: 14,
-        borderColor: colors.primary
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        width: '100%',
+        backgroundColor: colors.card,
+        color: colors.text,
+        fontSize: 18,
+        textAlign: 'center',
+        
     },
-    joinBtn: {
+    btn: {
+        width: '100%',
+        backgroundColor: colors.primary,
+        borderColor: 'transparent',
+    },
+    btnDisabled: {
         backgroundColor: colors.primary,
     },
-    actions: {
-        paddingHorizontal: 16,
-        gap: 12,
-        marginBottom: 12,
+    btnText: {
+        color: colors.text,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
-    header: {
-        alignItems: "center",
-        paddingVertical: 14,
+    cancelBtn: {
+        width: '100%',
+        borderColor: 'transparent',
+        backgroundColor: colors.secondary,
     },
-    note: {
-        fontStyle: 'italic',
-        color: "gray",
-        textAlign: 'center',
-    }
+    cancelText: {
+        color: colors.primary,
+        fontSize: 16,
+        fontWeight: '600',
+    },
 });

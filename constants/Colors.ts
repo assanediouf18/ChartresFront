@@ -1,7 +1,7 @@
 const colors = {
-  primary: "#456990", // Indigo
-  secondary: "#f97316", // Orange
-  background: "#114b5f",
+  primary: "#456990", // Bleu vert
+  secondary: "#e4fde1", // Vert
+  background: "#114b5f", // Bleu foncé
   card: "#f9fafb",
   text: "#ffffff",
   textSecondary: "#6b7280",

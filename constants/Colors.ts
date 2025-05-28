@@ -1,5 +1,5 @@
 const colors = {
-  primary: "#6366f1", // Indigo
+  primary: "#456990", // Indigo
   secondary: "#f97316", // Orange
   background: "#114b5f",
   card: "#f9fafb",

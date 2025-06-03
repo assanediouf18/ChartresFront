@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 24,
-        paddingVertical: 32,
+        paddingVertical: 30,
     },
     content: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 24,
-        gap: 24,
+        gap: 10,
     },
     title: {
         fontSize: typography.h1.size,
@@ -95,11 +95,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     image: {
-        width: '60%',
+        width: '40%',
         maxWidth: 300,
         height: undefined,
         aspectRatio: 1,
-        marginVertical: 16,
     },
     input: {
         paddingHorizontal: 16,

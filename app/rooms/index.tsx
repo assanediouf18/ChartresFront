@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         color: colors.primary,
         fontSize: 18,
         textAlign: 'center',
-        
+        borderRadius: 12,
     },
     btn: {
         width: '100%',

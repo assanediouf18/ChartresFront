@@ -1,9 +1,22 @@
 import colors from "@/constants/Colors";
-import defaultStyles from "@/constants/styles";
+import defaultStyles, { typography } from "@/constants/styles";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { Dimensions, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    Dimensions,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    useWindowDimensions,
+    View
+} from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import { SwiperFlatListRefProps } from "react-native-swiper-flatlist/src/components/SwiperFlatList/SwiperFlatListProps";
@@ -14,7 +27,7 @@ export default function NamesSelectionScreen() {
     const [gotoIndex, setGotoIndex] = useState<number>(-1);
     const [nextBtn, setNextBtn] = useState<string>("Next");
     const [prevBtn, setPrevBtn] = useState<string>("Back");
-    const data = Array(nbPlayers).fill("Player n°").map((title, index) => `${title}${index + 1}`);
+    const data = Array(nbPlayers).fill("PLAYER N°").map((title, index) => `${title}${index + 1}`);
     const router = useRouter();
     const addPlayer = useGlobalStore(state => state.addPlayer);
 
@@ -45,26 +58,12 @@ export default function NamesSelectionScreen() {
                 ref={swiper}
                 showPagination
                 data={data}
-                renderItem={({ item, index }) => (
-                    <GetNameSlide title={item} nextBtnTitle={nextBtn} onNextBtnClick={goToNext} />
+                renderItem={({ item }) => (
+                    <View style={{ width: Dimensions.get("window").width, alignItems: 'center' }}>
+                        <GetNameSlide title={item} nextBtnTitle={nextBtn} onNextBtnClick={goToNext} />
+                    </View>
                 )}
-                style={{
-                    flex: 1,
-                    flexGrow: 1,
-                }}
-                onChangeIndex={({ index, prevIndex }) => {
-                    if (index == 0) {
-                        setPrevBtn("Back")
-                    } else {
-                        setPrevBtn("Previous")
-                    }
-
-                    if (index == data.length - 1) {
-                        setNextBtn("Done")
-                    } else {
-                        setNextBtn("Next")
-                    }
-                }}
+                style={{ flexGrow: 1 }}
                 paginationActiveColor={colors.primary}
                 paginationStyle={{ paddingVertical: 32, alignItems: "center", position: "relative" }}
             />
@@ -79,43 +78,105 @@ interface GetNameSlideProps {
     nextBtnTitle: string,
     onNextBtnClick: (playerName: string) => void
 }
-
 function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps) {
     const [playerName, setPlayerName] = useState<string>("");
+    const { width, height } = useWindowDimensions();
+
     return (
-        <View style={{ flex: 1, width: WIDTH, justifyContent: "center" }}>
-            <View style={{ justifyContent: "center", alignItems: "center", paddingVertical: 16 }}>
-                <Text style={[defaultStyles.h1]}>{title}</Text>
-            </View>
-            <View style={{ paddingHorizontal: 36, flexDirection: "row", gap: 8 }}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={{ flex: 1 }}
+        >
+            <ScrollView
+                contentContainerStyle={[
+                    styles.slideContainer,
+                    {
+                        paddingHorizontal: width * 0.1,
+                        minHeight: height,
+                        justifyContent: 'center'
+                    }
+                ]}
+                showsVerticalScrollIndicator={false}
+            >
+                <Text style={styles.title}>{title}</Text>
+
+                <Image
+                    source={require('../../assets/images/names_page.png')}
+                    style={[styles.image, { width: width * 0.3, height: width * 0.3 }]}
+                    resizeMode="contain"
+                />
+
                 <TextInput
                     placeholder="John Doe"
                     style={styles.input}
                     maxLength={12}
                     value={playerName}
-                    onChangeText={value => setPlayerName(value)}
+                    onChangeText={setPlayerName}
+                    placeholderTextColor="#aaa"
                 />
+
                 <Pressable
-                    style={[defaultStyles.btnOutlined, { backgroundColor: playerName == "" ? "gray" : colors.primary }]}
+                    style={[
+                        defaultStyles.btnOutlined,
+                        styles.btn,
+                        playerName === "" && styles.btnDisabled,
+                    ]}
                     onPress={() => {
-                        if (playerName != "") {
-                            onNextBtnClick(playerName)
+                        if (playerName !== "") {
+                            onNextBtnClick(playerName);
                         }
-                    }}>
-                    <Text style={{ color: "white" }}>{nextBtnTitle}</Text>
+                    }}
+                    disabled={playerName === ""}
+                >
+                    <Text style={styles.btnText}>{nextBtnTitle}</Text>
                 </Pressable>
-            </View>
-        </View>
-    )
+            </ScrollView>
+        </KeyboardAvoidingView>
+    );
 }
 
 const styles = StyleSheet.create({
+    slideContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 20,
+        paddingVertical: 32,
+    },
+    title: {
+        fontSize: typography.h1.size,
+        fontWeight: 'bold',
+        color: colors.text,
+        textAlign: 'center',
+    },
+    image: {
+        width: '60%',
+        maxWidth: 300,
+        height: undefined,
+        aspectRatio: 1,
+        marginVertical: 16,
+    },
     input: {
+        paddingHorizontal: 15,
+        paddingVertical: 12,
+        width: '100%',
+        backgroundColor: colors.card,
+        color: colors.primary,
+        fontSize: 18,
+        textAlign: 'center',
         borderRadius: 12,
-        paddingHorizontal: 12,
-        borderWidth: 1,
-        fontSize: 14,
-        borderColor: colors.primary,
-        flexGrow: 1,
+    },
+    btn: {
+        width: '100%',
+        backgroundColor: colors.primary,
+        borderColor: 'transparent',
+    },
+    btnDisabled: {
+        backgroundColor: colors.primary,
+    },
+    btnText: {
+        color: colors.secondary,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 });

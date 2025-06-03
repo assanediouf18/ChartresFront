@@ -29,7 +29,7 @@ export default function RoomScreen() {
 
     return (
             <SafeAreaView style={[defaultStyles.container]}>
-                <ScrollView contentContainerStyle={styles.content}>
+                <ScrollView contentContainerStyle={[styles.container, { paddingHorizontal: width * 0.05 }]}>
                     <Text style={styles.title}>NUMBER OF PLAYERS</Text>
 
                     <Image
@@ -74,6 +74,13 @@ export default function RoomScreen() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 24,
+        paddingVertical: 32,
+    },
     content: {
         flex: 1,
         alignItems: 'center',
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         width: '100%',
         backgroundColor: colors.card,
-        color: colors.text,
+        color: colors.primary,
         fontSize: 18,
         textAlign: 'center',
         
@@ -113,7 +120,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.primary,
     },
     btnText: {
-        color: colors.text,
+        color: colors.secondary,
         fontWeight: 'bold',
         fontSize: 16,
     },
@@ -125,6 +132,6 @@ const styles = StyleSheet.create({
     cancelText: {
         color: colors.primary,
         fontSize: 16,
-        fontWeight: '600',
+        fontWeight: 'bold',
     },
 });

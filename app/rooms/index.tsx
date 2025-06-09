@@ -40,7 +40,7 @@ export default function RoomScreen() {
 
                     <TextInput
                         placeholder="2"
-                        style={styles.input}
+                        style={defaultStyles.input}
                         maxLength={2}
                         inputMode="decimal"
                         keyboardType="numeric"
@@ -51,20 +51,20 @@ export default function RoomScreen() {
                     <Pressable
                         style={[
                             defaultStyles.btnOutlined,
-                            styles.btn,
-                            numberOfPlayers <= 0 && styles.btnDisabled,
+                            defaultStyles.btn,
+                            numberOfPlayers <= 0 && defaultStyles.btnDisabled,
                         ]}
                         onPress={handleNavigation}
                         disabled={numberOfPlayers <= 0}
                     >
-                        <Text style={styles.btnText}>Next</Text>
+                        <Text style={defaultStyles.btnText}>Next</Text>
                     </Pressable>
 
                     <Pressable
-                        style={[defaultStyles.btnOutlined, styles.cancelBtn]}
+                        style={[defaultStyles.btnOutlined, defaultStyles.cancelBtn]}
                         onPress={router.back}
                     >
-                        <Text style={styles.cancelText}>Cancel</Text>
+                        <Text style={defaultStyles.cancelText}>Cancel</Text>
                     </Pressable>
                 </ScrollView>
             </SafeAreaView>
@@ -99,38 +99,5 @@ const styles = StyleSheet.create({
         maxWidth: 300,
         height: undefined,
         aspectRatio: 1,
-    },
-    input: {
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        width: '100%',
-        backgroundColor: colors.card,
-        color: colors.primary,
-        fontSize: 18,
-        textAlign: 'center',
-        borderRadius: 12,
-    },
-    btn: {
-        width: '100%',
-        backgroundColor: colors.primary,
-        borderColor: 'transparent',
-    },
-    btnDisabled: {
-        backgroundColor: colors.primary,
-    },
-    btnText: {
-        color: colors.secondary,
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    cancelBtn: {
-        width: '100%',
-        borderColor: 'transparent',
-        backgroundColor: colors.secondary,
-    },
-    cancelText: {
-        color: colors.primary,
-        fontSize: 16,
-        fontWeight: 'bold',
     },
 });

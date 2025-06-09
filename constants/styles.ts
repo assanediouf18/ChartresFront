@@ -19,10 +19,32 @@ const defaultStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
     },
+    title: {
+        fontSize: typography.h1.size,
+        fontWeight: 'bold',
+        color: colors.text,
+        textAlign: 'center',
+    },
     h1: {
         fontSize: typography.h1.size,
         marginVertical: 8,
         fontWeight: "bold",
+    },
+    btn: {
+        width: '100%',
+        backgroundColor: colors.primary,
+        borderColor: 'transparent',
+        paddingVertical: 13,
+    },
+    input: {
+        paddingHorizontal: 15,
+        paddingVertical: 13,
+        width: '100%',
+        backgroundColor: colors.card,
+        color: colors.primary,
+        fontSize: 18,
+        textAlign: 'center',
+        borderRadius: 12,
     },
     btnOutlined: {
         backgroundColor: colors.card,
@@ -36,6 +58,24 @@ const defaultStyles = StyleSheet.create({
     btnPressed: {
         opacity: 0.9,
         transform: [{ scale: 0.98 }],
+    },
+    btnDisabled: {
+        backgroundColor: colors.primary,
+    },
+    btnText: {
+        color: colors.secondary,
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    cancelBtn: {
+        width: '100%',
+        borderColor: 'transparent',
+        backgroundColor: colors.secondary,
+    },
+    cancelText: {
+        color: colors.primary,
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 

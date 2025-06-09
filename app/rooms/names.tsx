@@ -1,5 +1,5 @@
 import colors from "@/constants/Colors";
-import defaultStyles, { typography } from "@/constants/styles";
+import defaultStyles from "@/constants/styles";
 import useGlobalStore from "@/store/useGlobalStore";
 import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -65,7 +65,7 @@ export default function NamesSelectionScreen() {
                 )}
                 style={{ flexGrow: 1 }}
                 paginationActiveColor={colors.primary}
-                paginationStyle={{ paddingVertical: 32, alignItems: "center", position: "relative" }}
+                paginationStyle={{ paddingVertical: 15, alignItems: "center", position: "relative" }}
             />
         </SafeAreaView>
     )
@@ -91,14 +91,14 @@ function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps
                 contentContainerStyle={[
                     styles.slideContainer,
                     {
-                        paddingHorizontal: width * 0.1,
-                        minHeight: height,
+                        paddingHorizontal: width,
+                        minHeight: height*0.9,
                         justifyContent: 'center'
                     }
                 ]}
                 showsVerticalScrollIndicator={false}
             >
-                <Text style={styles.title}>{title}</Text>
+                <Text style={defaultStyles.title}>{title}</Text>
 
                 <Image
                     source={require('../../assets/images/names_page.png')}
@@ -108,7 +108,7 @@ function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps
 
                 <TextInput
                     placeholder="John Doe"
-                    style={styles.input}
+                    style={defaultStyles.input}
                     maxLength={12}
                     value={playerName}
                     onChangeText={setPlayerName}
@@ -118,8 +118,8 @@ function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps
                 <Pressable
                     style={[
                         defaultStyles.btnOutlined,
-                        styles.btn,
-                        playerName === "" && styles.btnDisabled,
+                        defaultStyles.btn,
+                        playerName === "" && defaultStyles.btnDisabled,
                     ]}
                     onPress={() => {
                         if (playerName !== "") {
@@ -128,7 +128,7 @@ function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps
                     }}
                     disabled={playerName === ""}
                 >
-                    <Text style={styles.btnText}>{nextBtnTitle}</Text>
+                    <Text style={defaultStyles.btnText}>{nextBtnTitle}</Text>
                 </Pressable>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -141,42 +141,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         gap: 20,
-        paddingVertical: 32,
-    },
-    title: {
-        fontSize: typography.h1.size,
-        fontWeight: 'bold',
-        color: colors.text,
-        textAlign: 'center',
+        paddingVertical: 50,
     },
     image: {
         width: '60%',
         maxWidth: 300,
         height: undefined,
         aspectRatio: 1,
-        marginVertical: 16,
-    },
-    input: {
-        paddingHorizontal: 15,
-        paddingVertical: 12,
-        width: '100%',
-        backgroundColor: colors.card,
-        color: colors.primary,
-        fontSize: 18,
-        textAlign: 'center',
-        borderRadius: 12,
-    },
-    btn: {
-        width: '100%',
-        backgroundColor: colors.primary,
-        borderColor: 'transparent',
-    },
-    btnDisabled: {
-        backgroundColor: colors.primary,
-    },
-    btnText: {
-        color: colors.secondary,
-        fontWeight: 'bold',
-        fontSize: 16,
+        marginVertical: -30,
+        
     },
 });

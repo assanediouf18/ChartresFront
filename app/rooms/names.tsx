@@ -91,7 +91,7 @@ function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps
                 contentContainerStyle={[
                     styles.slideContainer,
                     {
-                        paddingHorizontal: width,
+                        paddingHorizontal: 24,
                         minHeight: height*0.9,
                         justifyContent: 'center'
                     }
@@ -102,7 +102,7 @@ function GetNameSlide({ title, nextBtnTitle, onNextBtnClick }: GetNameSlideProps
 
                 <Image
                     source={require('../../assets/images/names_page.png')}
-                    style={[styles.image, { width: width * 0.3, height: width * 0.3 }]}
+                    style={[styles.image, { width: width * 0.5, height: width * 0.5 }]}
                     resizeMode="contain"
                 />
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        gap: 20,
+        gap: 24,
         paddingVertical: 50,
     },
     image: {

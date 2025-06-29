@@ -69,6 +69,7 @@ const defaultStyles = StyleSheet.create({
     },
     cancelBtn: {
         width: '100%',
+        paddingVertical: 13,
         borderColor: 'transparent',
         backgroundColor: colors.secondary,
     },

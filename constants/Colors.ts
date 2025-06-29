@@ -4,6 +4,7 @@ const colors = {
   background: "#114b5f", // Bleu foncé
   card: "#f9fafb",
   text: "#ffffff",
+  textSecondary: "#6b7280",
   border: "#e5e7eb",
   success: "#10b981",
   error: "#ef4444",

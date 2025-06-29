@@ -6,7 +6,7 @@ const base_url = "https://1c6e71b3a1e0df5ab8b3db77ffcd9a02.serveo.net";
 
 export function useGetQuestions() {
     const [questions, setQuestions] = useState<Question[]>([]);
-    
+    console.log(`${base_url}`);
     useEffect(() => {
         // Later, fetch questions here
         setQuestions(mockQuestions);
@@ -20,7 +20,7 @@ export function useGetQuestions() {
 // Later fetch the backend here
 export function useGetCategories() {
     const [categories, setCategories] = useState<string[]>([]);
-
+    console.log(`${base_url}`);
     useEffect(() => {
         console.log(`${base_url}/categories`);
         fetch(`${base_url}/categories`)
@@ -39,7 +39,7 @@ export function useGetCategories() {
 
 export function useGetNextQuestion() {
     const [question, setQuestion] = useState<Question | undefined>();
-
+    console.log(`${base_url}`);
     useEffect(() => {
         console.log(`${base_url}/question_next`);
         fetch(`${base_url}/question_next`)

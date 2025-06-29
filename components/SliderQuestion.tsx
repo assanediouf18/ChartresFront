@@ -11,9 +11,9 @@ interface SliderQuestionProps {
 }
 
 export default function SliderQuestion({ question, onAnswer }: SliderQuestionProps) {
-    const savedAnswer = useAnswerStore((state) => state.getAnswer(question.id));
+    const savedAnswer = useAnswerStore((state) => state.getAnswer(question.id, 'replace-with-user-identifier'));
     const [value, setValue] = useState<number>(
-        savedAnswer?.value as number || (question.minValue || 0)
+        savedAnswer?.value as number || (question.min_value || 0)
     );
 
     useEffect(() => {
@@ -27,6 +27,9 @@ export default function SliderQuestion({ question, onAnswer }: SliderQuestionPro
         onAnswer(newValue);
     };
 
+    const maxValue = question.max_value;
+    const minValue = question.min_value;
+
     return (
         <View style={styles.container}>
             <Text style={styles.valueText}>
@@ -35,8 +38,8 @@ export default function SliderQuestion({ question, onAnswer }: SliderQuestionPro
 
             <Slider
                 style={styles.slider}
-                minimumValue={question.minValue || 0}
-                maximumValue={question.maxValue || 100}
+                minimumValue={question.min_value || 0}
+                maximumValue={question.max_value || 100}
                 value={value}
                 onValueChange={handleValueChange}
                 minimumTrackTintColor={colors.primary}
@@ -47,10 +50,10 @@ export default function SliderQuestion({ question, onAnswer }: SliderQuestionPro
 
             <View style={styles.rangeLabels}>
                 <Text style={styles.rangeText}>
-                    {question.minValue} {question.price_unit}
+                    {question.min_value} {question.price_unit}
                 </Text>
                 <Text style={styles.rangeText}>
-                    {question.maxValue} {question.price_unit}
+                    {question.max_value} {question.price_unit}
                 </Text>
             </View>
         </View>

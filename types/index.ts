@@ -3,8 +3,8 @@ export interface Question {
     text: string;
     imageUrl?: string;
     type: 'slider' | 'choice';
-    minValue?: number;
-    maxValue?: number;
+    min_value?: number;
+    max_value?: number;
     price_unit?: string;
     choices?: string[];
     category: string;

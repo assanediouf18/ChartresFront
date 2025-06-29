@@ -2,7 +2,7 @@ import mockQuestions from "@/mocks/questions";
 import { Answer, Question } from "@/types";
 import { useEffect, useState } from "react";
 
-const base_url = "https://1c6e71b3a1e0df5ab8b3db77ffcd9a02.serveo.net";
+const base_url = process.env.EXPO_PUBLIC_API_URL;
 
 export function useGetQuestions() {
     const [questions, setQuestions] = useState<Question[]>([]);
@@ -25,11 +25,14 @@ export function useGetCategories() {
         console.log(`${base_url}/categories`);
         fetch(`${base_url}/categories`)
             .then(response => {
+                console.log(response);
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 setCategories(data.categories);
-            });
+            })
+            .catch(e => { console.log(e) });
     }, [])
 
     return {
